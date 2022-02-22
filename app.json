@@ -1,0 +1,25 @@
+{
+  "id": "3c9fe188-a199-4ad1-9e1d-a081e8e2cf0f",
+  "name": "Customer Vendor Search",
+  "publisher": "Network Plus",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "17.0.0.0",
+  "idRanges": [
+    {
+      "from": 50003,
+      "to": 50300
+    }
+  ],
+  "runtime": "7.0"
+}

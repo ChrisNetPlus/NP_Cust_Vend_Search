@@ -1,0 +1,40 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "BC_Test",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "OnPrem",
+            "server": "http://nwp-msbcapp01:8080/BC/",
+            "port": 7149,
+            "serverInstance": "BC180",
+            "authentication": "Windows",
+            "startupObjectId": 22,
+            "startupObjectType": "Page",
+            "breakOnError": true,
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "forceUpgrade": true,
+            "dependencyPublishingOption": "Ignore"
+        },
+        {
+            "name": "BC_PROD",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "OnPrem",
+            "server": "https://dynamics.networkplus.co.uk/BC-Prod/",
+            "port": 7249,
+            "serverInstance": "BC-Prod",
+            "authentication": "Windows",
+            "startupObjectId": 22,
+            "startupObjectType": "Page",
+            "breakOnError": true,
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "forceUpgrade": true
+        }
+    ]
+}
