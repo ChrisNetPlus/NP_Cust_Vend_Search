@@ -20,6 +20,7 @@ page 50005 "NP Customer Search"
                 {
                     Caption = 'No.';
                     ApplicationArea = All;
+                    ToolTip = 'Customer No.';
                 }
                 field("Var_Name"; Var_Name)
                 {
