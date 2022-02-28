@@ -254,8 +254,145 @@ page 50009 "NP Vendor Search"
 
     actions
     {
+
         area(processing)
         {
+            group("Ven&dor")
+            {
+                Caption = 'Ven&dor';
+                Image = Vendor;
+                action(Dimensions)
+                {
+                    ApplicationArea = Dimensions;
+                    Caption = 'Dimensions';
+                    Image = Dimensions;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    RunObject = Page "Default Dimensions";
+                    RunPageLink = "Table ID" = CONST(23),
+                                  "No." = FIELD("No.");
+                    ShortCutKey = 'Alt+D';
+                    ToolTip = 'View or edit dimensions, such as area, project, or department, that you can assign to sales and purchase documents to distribute costs and analyze transaction history.';
+                }
+                action("Bank Accounts")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Bank Accounts';
+                    Image = BankAccount;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Vendor Bank Account List";
+                    RunPageLink = "Vendor No." = FIELD("No.");
+                    ToolTip = 'View or set up the vendor''s bank accounts. You can set up any number of bank accounts for each vendor.';
+                }
+                action(OrderAddresses)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Order &Addresses';
+                    Image = Addresses;
+                    RunObject = Page "Order Address List";
+                    RunPageLink = "Vendor No." = FIELD("No.");
+                    ToolTip = 'View a list of alternate order addresses for the vendor.';
+                }
+                action("Co&mments")
+                {
+                    ApplicationArea = Comments;
+                    Caption = 'Co&mments';
+                    Image = ViewComments;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Comment Sheet";
+                    RunPageLink = "Table Name" = CONST(Vendor),
+                                  "No." = FIELD("No.");
+                    ToolTip = 'View or add comments for the record.';
+                }
+                action("Cross References")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Cross References';
+                    Image = Change;
+                    ObsoleteState = Pending;
+                    ObsoleteReason = 'Replaced by Item Reference feature.';
+                    ObsoleteTag = '18.0';
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Cross References";
+                    RunPageLink = "Cross-Reference Type" = CONST(Vendor),
+                                  "Cross-Reference Type No." = FIELD("No.");
+                    RunPageView = SORTING("Cross-Reference Type", "Cross-Reference Type No.");
+                    ToolTip = 'Set up a customer''s or vendor''s own identification of the selected item. Cross-references to the customer''s item number means that the item number is automatically shown on sales documents instead of the number that you use.';
+                }
+                action("Item References")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Item References';
+                    Image = Change;
+                    Visible = true;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Item References";
+                    RunPageLink = "Reference Type" = CONST(Vendor),
+                                  "Reference Type No." = FIELD("No.");
+                    RunPageView = SORTING("Reference Type", "Reference Type No.");
+                    ToolTip = 'Set up a customer''s or vendor''s own identification of the selected item. Item references to the customer''s item number means that the item number is automatically shown on sales documents instead of the number that you use.';
+                }
+                action(VendorReportSelections)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Document Layouts';
+                    Image = Quote;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    ToolTip = 'Set up a layout for different types of documents such as invoices, quotes, and credit memos.';
+
+                    trigger OnAction()
+                    var
+                        CustomReportSelection: Record "Custom Report Selection";
+                    begin
+                        CustomReportSelection.SetRange("Source Type", DATABASE::Vendor);
+                        CustomReportSelection.SetRange("Source No.", Rec."No.");
+                        PAGE.RunModal(PAGE::"Vendor Report Selections", CustomReportSelection);
+                    end;
+                }
+                action(Attachments)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Attachments';
+                    Image = Attach;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    ToolTip = 'Add a file as an attachment. You can attach images as well as documents.';
+
+                    trigger OnAction()
+                    var
+                        DocumentAttachmentDetails: Page "Document Attachment Details";
+                        RecRef: RecordRef;
+                    begin
+                        RecRef.GetTable(Rec);
+                        DocumentAttachmentDetails.OpenForRecRef(RecRef);
+                        DocumentAttachmentDetails.RunModal;
+                    end;
+                }
+                action(Prices)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Prices';
+                    Image = Price;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    Visible = true;
+                    RunObject = Page "Purchase Prices";
+                    RunPageLink = "Vendor No." = FIELD("No.");
+                    RunPageView = SORTING("Vendor No.");
+                    ToolTip = 'View or set up different prices for items that you buy from the vendor. An item price is automatically granted on invoice lines when the specified criteria are met, such as vendor, quantity, or ending date.';
+                    ObsoleteState = Pending;
+                    ObsoleteReason = 'Replaced by the new implementation (V16) of price calculation.';
+                    ObsoleteTag = '17.0';
+                }
+
+            }
+
             group(Search)
             {
                 Caption = 'Search';
@@ -411,6 +548,71 @@ page 50009 "NP Vendor Search"
                         UserTaskCard.Run();
                     end;
                 }
+                action(NewPurchaseInvoice)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Purchase Invoice';
+                    Image = NewPurchaseInvoice;
+                    Promoted = true;
+                    PromotedCategory = New;
+                    RunObject = Page "Purchase Invoice";
+                    RunPageLink = "Buy-from Vendor No." = FIELD("No.");
+                    RunPageMode = Create;
+                    ToolTip = 'Create a new purchase invoice for items or services.';
+                    Visible = true;
+                }
+                action(NewPurchaseOrder)
+                {
+                    ApplicationArea = Suite;
+                    Caption = 'Purchase Order';
+                    Image = Document;
+                    Promoted = true;
+                    PromotedCategory = New;
+                    RunObject = Page "Purchase Order";
+                    RunPageLink = "Buy-from Vendor No." = FIELD("No.");
+                    RunPageMode = Create;
+                    ToolTip = 'Create a new purchase order.';
+                    Visible = true;
+                }
+                action(NewPurchaseCrMemo)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Purchase Credit Memo';
+                    Image = CreditMemo;
+                    Promoted = true;
+                    PromotedCategory = New;
+                    RunObject = Page "Purchase Credit Memo";
+                    RunPageLink = "Buy-from Vendor No." = FIELD("No.");
+                    RunPageMode = Create;
+                    ToolTip = 'Create a new purchase credit memo to revert a posted purchase invoice.';
+                    Visible = true;
+                }
+                action("Create Payments")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Create Payments';
+                    Ellipsis = true;
+                    Image = PaymentJournal;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Payment Journal";
+                    ToolTip = 'View or edit the payment journal where you can register payments to vendors.';
+                }
+                action(PayVendor)
+                {
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Pay Vendor';
+                    Image = SuggestVendorPayments;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    RunObject = Page "Vendor Ledger Entries";
+                    RunPageLink = "Vendor No." = FIELD("No."),
+                              "Remaining Amount" = FILTER(< 0),
+                              "Applies-to ID" = FILTER(''),
+                              "Document Type" = FILTER(Invoice);
+                    ToolTip = 'Opens vendor ledger entries with invoices that have not been paid yet.';
+                }
 
             }
             group(Show)
@@ -446,7 +648,44 @@ page 50009 "NP Vendor Search"
                 ApplicationArea = All;
             }
         }
+        area(reporting)
+        {
+            action("Vendor - Summary Aging")
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Vendor - Summary Aging';
+                Image = "Report";
+                Promoted = false;
+                ToolTip = 'View a summary of the payables owed to each vendor, divided into three time periods.';
+
+                trigger OnAction()
+                begin
+                    RunReport(REPORT::"Vendor - Summary Aging");
+                end;
+            }
+            action("Vendor - Balance to Date")
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Vendor - Balance to Date';
+                Image = "Report";
+                Promoted = false;
+                ToolTip = 'View a detail balance for selected vendors.';
+
+                trigger OnAction()
+                begin
+                    RunReport(REPORT::"Vendor - Balance to Date");
+                end;
+            }
+        }
+
     }
+    procedure RunReport(ReportNumber: Integer)
+    var
+        Vendor: Record Vendor;
+    begin
+        Vendor.SetRange("No.", Rec."No.");
+        REPORT.RunModal(ReportNumber, true, true, Vendor);
+    end;
 
     trigger OnAfterGetRecord()
     begin
