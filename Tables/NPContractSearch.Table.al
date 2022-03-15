@@ -14,6 +14,7 @@ table 50009 "NP Contract Search"
             var
                 DimValue: Record "Dimension Value";
                 PostedSalesInvoiceLine: Record "Sales Invoice Line";
+                OpenSalesLines: Record "Sales Line";
                 Customer: Record Customer;
                 ContractSearchCue: Record "NP Contract Search Cue";
             begin
@@ -28,6 +29,15 @@ table 50009 "NP Contract Search"
                         if Customer.FindFirst() then begin
                             "Customer No." := PostedSalesInvoiceLine."Sell-to Customer No.";
                             "Customer Name" := Customer.Name;
+                        end;
+                    end else begin
+                        OpenSalesLines.SetRange("Shortcut Dimension 1 Code", Rec."Contract Code");
+                        if OpenSalesLines.FindFirst() then begin
+                            Customer.SetRange("No.", OpenSalesLines."Sell-to Customer No.");
+                            if Customer.FindFirst() then begin
+                                "Customer No." := OpenSalesLines."Sell-to Customer No.";
+                                "Customer Name" := Customer.Name;
+                            end;
                         end;
                     end;
                 end;
