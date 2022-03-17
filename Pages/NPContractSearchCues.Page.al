@@ -4,7 +4,7 @@ page 50016 "NP Contract Search Cues"
     PageType = CardPart;
     RefreshOnActivate = true;
     SourceTable = "NP Contract Search Cue";
-
+    Permissions = tabledata "Sales Invoice Line" = R, tabledata "Sales Cr.Memo Line" = R;
     layout
     {
         area(content)

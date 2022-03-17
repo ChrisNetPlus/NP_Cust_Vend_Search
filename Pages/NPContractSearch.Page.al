@@ -1,12 +1,12 @@
 page 50015 "NP Contract Search"
 {
-    Caption = 'Contract Search';
+    Caption = 'Contract Dashboard';
     DataCaptionExpression = DataCaption;
     PageType = Card;
     SourceTable = "NP Contract Search";
     UsageCategory = Tasks;
     ApplicationArea = All;
-    Permissions = tabledata "NP Contract Search Cue" = RIMD;
+    Permissions = tabledata "NP Contract Search Cue" = RIMD, tabledata "NP Contract Search Workstream" = RIMD, tabledata "Sales Invoice Line" = R, tabledata "Sales Cr.Memo Line" = R;
     layout
     {
         area(content)
@@ -20,6 +20,10 @@ page 50015 "NP Contract Search"
                     Caption = 'Contract';
                     ApplicationArea = All;
                     ToolTip = 'Contract No.';
+                    trigger OnValidate()
+                    begin
+                        UpdateWorkstreamList;
+                    end;
                 }
                 field(Description; Rec.Description)
                 {
@@ -42,6 +46,13 @@ page 50015 "NP Contract Search"
                     Editable = false;
                 }
             }
+            part(NPContractWorkstreamSub; "NP Contract Workstream Sub")
+            {
+                Caption = 'Workstream Breakdown';
+                SubPageLink = "Contract Code" = field("Contract Code");
+                Visible = true;
+                ApplicationArea = All;
+            }
             part(ContractSearchCues; "NP Contract Search Cues")
             {
                 Caption = 'Contract Info';
@@ -51,48 +62,49 @@ page 50015 "NP Contract Search"
             }
         }
     }
+    local procedure UpdateWorkstreamList()
+    var
+        PostedPurchaseInvLine: Record "Purch. Inv. Line";
+        PostedSalesInvLine: Record "Sales Invoice Line";
+        PurchaseLine: Record "Purchase Line";
+        WorkstreamInfo: Record "NP Contract Search Workstream";
+    begin
+        PurchaseLine.SetRange("Shortcut Dimension 1 Code", Rec."Contract Code");
+        if PurchaseLine.FindSet() then
+            repeat
+                WorkstreamInfo."Contract Code" := Rec."Contract Code";
+                WorkstreamInfo."Workstream Code" := PurchaseLine."Shortcut Dimension 2 Code";
+                if not WorkstreamInfo.Insert() then
+                    WorkstreamInfo.Modify();
+            until PurchaseLine.Next() = 0;
+        PostedPurchaseInvLine.SetRange("Shortcut Dimension 1 Code", Rec."Contract Code");
+        if PostedPurchaseInvLine.FindSet() then
+            repeat
+                WorkstreamInfo."Contract Code" := Rec."Contract Code";
+                WorkstreamInfo."Workstream Code" := PostedPurchaseInvLine."Shortcut Dimension 2 Code";
+                if not WorkstreamInfo.Insert() then
+                    WorkstreamInfo.Modify();
+            until PostedPurchaseInvLine.Next() = 0;
+        PostedSalesInvLine.SetRange("Shortcut Dimension 1 Code", Rec."Contract Code");
+        if PostedSalesInvLine.FindSet() then
+            repeat
+                WorkstreamInfo."Contract Code" := Rec."Contract Code";
+                WorkstreamInfo."Workstream Code" := PostedSalesInvLine."Shortcut Dimension 2 Code";
+                if not WorkstreamInfo.Insert() then
+                    WorkstreamInfo.Modify();
+            until PostedSalesInvLine.Next() = 0;
+    end;
+
     trigger OnClosePage()
     var
         ContractSearch: Record "NP Contract Search";
+        WorkstreamSearch: Record "NP Contract Search Workstream";
     begin
         ContractSearch.DeleteAll();
+        WorkstreamSearch.DeleteAll();
     end;
 
     var
         [InDataSet]
-        CustomerNotFound: Boolean;
-        [InDataSet]
-        CustomerFound: Boolean;
         DataCaption: Text;
-        Var_No_: Code[20];
-        Var_Name: Text[50];
-        Var_Address: Text[50];
-        Var_Address_2: Text[50];
-        ShowDocTabs: Boolean;
-        [InDataSet]
-        HasOpenLedgerEntries: Boolean;
-        [InDataSet]
-        HasSalesQuotes: Boolean;
-        [InDataSet]
-        HasSalesOrders: Boolean;
-        [InDataSet]
-        HasSalesShipments: Boolean;
-        [InDataSet]
-        HasSalesInvoices: Boolean;
-        [InDataSet]
-        HasPostedInvoices: Boolean;
-        Err001: Label 'In order to create a new Customer you must select a Customer Template from the list';
-        Text_DataCaption_NotWindows: Label 'Please enter the search details and press "Find Customer"';
-        Text_NoMatchingCustomer: Label 'No matching Customer found';
-        Text_NoMatchingShipment: Label 'Sorry, no Shipment was found matching "%1". Please search using different information';
-        Text_NoMatchingOrder: Label 'Sorry, no Order was found matching "%1". Please search using different information';
-        Text_NoMatchingMasterOrder: Label 'Sorry, no Master Order was found matching "%1". Please search using different information';
-
-    [BusinessEvent(true)]
-    procedure OnCustomerFound(pCustomerFound: Boolean)
-    begin
-
-    end;
-
-
 }

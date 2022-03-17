@@ -24,7 +24,7 @@
             "request": "launch",
             "type": "al",
             "environmentType": "OnPrem",
-            "server": "https://dynamics.networkplus.co.uk/BC-Prod/",
+            "server": "http://nwp-msbcapp01:8080/BC-Prod/",
             "port": 7249,
             "serverInstance": "BC-Prod",
             "authentication": "Windows",
@@ -34,7 +34,8 @@
             "launchBrowser": true,
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
-            "forceUpgrade": true
+            "forceUpgrade": true,
+            "schemaUpdateMode": "ForceSync"
         }
     ]
 }
