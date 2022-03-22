@@ -11,6 +11,12 @@
   "url": "",
   "logo": "",
   "dependencies": [
+    {
+      "id": "1c7a8786-a409-48a5-af6d-07078329e721",
+      "name": "NetworkPlusGeneral",
+      "version": "1.0.0.2",
+      "publisher": "Network Plus"
+    }
   ],
   "screenshots": [],
   "platform": "1.0.0.0",
