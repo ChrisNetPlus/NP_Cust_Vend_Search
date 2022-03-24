@@ -23,8 +23,8 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
             until Vendor.Next() = 0;
     end;
 
-    [EventSubscriber(ObjectType::Table, Database::Customer, 'OnAfterInsertEvent', '', false, false)]
-    local procedure Customer_OnAfterInsert(var Rec: Record Customer; RunTrigger: Boolean)
+    [EventSubscriber(ObjectType::Table, Database::Vendor, 'OnAfterInsertEvent', '', false, false)]
+    local procedure Customer_OnAfterInsert(var Rec: Record Vendor; RunTrigger: Boolean)
     var
         VendorSearchCue: Record "NP Vendor Search Cue";
     begin
