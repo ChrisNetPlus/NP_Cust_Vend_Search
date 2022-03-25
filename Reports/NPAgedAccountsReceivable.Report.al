@@ -816,25 +816,26 @@ report 50012 "NP Aged Accounts Receivable"
     var
         Currency: Record Currency;
     begin
-        with TempCustLedgEntry do begin
-            if Get(CustLedgEntry."Entry No.") then
+        // with TempCustLedgEntry do 
+        begin
+            if TempCustLedgEntry.Get(CustLedgEntry."Entry No.") then
                 exit;
             TempCustLedgEntry := CustLedgEntry;
-            Insert;
+            TempCustLedgEntry.Insert;
             if PrintAmountInLCY then begin
                 Clear(TempCurrency);
                 TempCurrency."Amount Rounding Precision" := GLSetup."Amount Rounding Precision";
                 if TempCurrency.Insert() then;
                 exit;
             end;
-            if TempCurrency.Get("Currency Code") then
+            if TempCurrency.Get(TempCustLedgEntry."Currency Code") then
                 exit;
-            if TempCurrency.Get('') and ("Currency Code" = GLSetup."LCY Code") then
+            if TempCurrency.Get('') and (TempCustLedgEntry."Currency Code" = GLSetup."LCY Code") then
                 exit;
-            if TempCurrency.Get(GLSetup."LCY Code") and ("Currency Code" = '') then
+            if TempCurrency.Get(GLSetup."LCY Code") and (TempCustLedgEntry."Currency Code" = '') then
                 exit;
-            if "Currency Code" <> '' then
-                Currency.Get("Currency Code")
+            if TempCustLedgEntry."Currency Code" <> '' then
+                Currency.Get(TempCustLedgEntry."Currency Code")
             else begin
                 Clear(Currency);
                 Currency."Amount Rounding Precision" := GLSetup."Amount Rounding Precision";
@@ -865,30 +866,31 @@ report 50012 "NP Aged Accounts Receivable"
     begin
         TempCurrency2.Code := CurrencyCode;
         if TempCurrency2.Insert() then;
-        with TempCurrencyAmount do begin
+        // with TempCurrencyAmount do 
+        begin
             for i := 1 to ArrayLen(TotalCustLedgEntry) do begin
-                "Currency Code" := CurrencyCode;
-                Date := PeriodStartDate[i];
-                if Find then begin
-                    Amount := Amount + TotalCustLedgEntry[i]."Remaining Amount";
-                    Modify;
+                TempCurrencyAmount."Currency Code" := CurrencyCode;
+                TempCurrencyAmount.Date := PeriodStartDate[i];
+                if TempCurrencyAmount.Find then begin
+                    TempCurrencyAmount.Amount := TempCurrencyAmount.Amount + TotalCustLedgEntry[i]."Remaining Amount";
+                    TempCurrencyAmount.Modify;
                 end else begin
-                    "Currency Code" := CurrencyCode;
-                    Date := PeriodStartDate[i];
-                    Amount := TotalCustLedgEntry[i]."Remaining Amount";
-                    Insert;
+                    TempCurrencyAmount."Currency Code" := CurrencyCode;
+                    TempCurrencyAmount.Date := PeriodStartDate[i];
+                    TempCurrencyAmount.Amount := TotalCustLedgEntry[i]."Remaining Amount";
+                    TempCurrencyAmount.Insert;
                 end;
             end;
-            "Currency Code" := CurrencyCode;
-            Date := DMY2Date(31, 12, 9999);
-            if Find then begin
-                Amount := Amount + TotalCustLedgEntry[1].Amount;
-                Modify;
+            TempCurrencyAmount."Currency Code" := CurrencyCode;
+            TempCurrencyAmount.Date := DMY2Date(31, 12, 9999);
+            if TempCurrencyAmount.Find then begin
+                TempCurrencyAmount.Amount := TempCurrencyAmount.Amount + TotalCustLedgEntry[1].Amount;
+                TempCurrencyAmount.Modify;
             end else begin
-                "Currency Code" := CurrencyCode;
-                Date := DMY2Date(31, 12, 9999);
-                Amount := TotalCustLedgEntry[1].Amount;
-                Insert;
+                TempCurrencyAmount."Currency Code" := CurrencyCode;
+                TempCurrencyAmount.Date := DMY2Date(31, 12, 9999);
+                TempCurrencyAmount.Amount := TotalCustLedgEntry[1].Amount;
+                TempCurrencyAmount.Insert;
             end;
         end;
     end;
