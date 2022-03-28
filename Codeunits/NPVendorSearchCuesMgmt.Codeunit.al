@@ -24,7 +24,7 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
     end;
 
     [EventSubscriber(ObjectType::Table, Database::Vendor, 'OnAfterInsertEvent', '', false, false)]
-    local procedure Customer_OnAfterInsert(var Rec: Record Vendor; RunTrigger: Boolean)
+    local procedure Vendor_OnAfterInsert(var Rec: Record Vendor; RunTrigger: Boolean)
     var
         VendorSearchCue: Record "NP Vendor Search Cue";
     begin
@@ -39,8 +39,8 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
         end;
     end;
 
-    [EventSubscriber(ObjectType::Table, Database::Customer, 'OnAfterDeleteEvent', '', false, false)]
-    local procedure Customer_OnAfterDelete(var Rec: Record Customer; RunTrigger: Boolean)
+    [EventSubscriber(ObjectType::Table, Database::Vendor, 'OnAfterDeleteEvent', '', false, false)]
+    local procedure Vendor_OnAfterDelete(var Rec: Record Vendor; RunTrigger: Boolean)
     var
         VendorSearchCue: Record "NP Vendor Search Cue";
     begin
@@ -51,8 +51,8 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
             VendorSearchCue.Delete(true);
     end;
 
-    [EventSubscriber(ObjectType::Table, Database::Customer, 'OnAfterRenameEvent', '', false, false)]
-    local procedure Customer_OnAfterRename(var Rec: Record Customer; var xRec: Record Customer; RunTrigger: Boolean)
+    [EventSubscriber(ObjectType::Table, Database::Vendor, 'OnAfterRenameEvent', '', false, false)]
+    local procedure Vendor_OnAfterRename(var Rec: Record Vendor; var xRec: Record Vendor; RunTrigger: Boolean)
     var
         VendorSearchCue: Record "NP Vendor Search Cue";
     begin
