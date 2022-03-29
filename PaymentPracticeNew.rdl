@@ -31,7 +31,7 @@
                   <Width>0.56667in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.59167in</Width>
+                  <Width>0.74792in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.69167in</Width>
@@ -43,13 +43,16 @@
                   <Width>1.1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.79166in</Width>
+                  <Width>1.32291in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.56667in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.425in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.5in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -507,6 +510,47 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox25">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Less30</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox25</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -897,6 +941,42 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>DaysLate</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Less30">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Less30.Value</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Less30</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1307,21 +1387,16 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox8">
+                        <Textbox Name="Textbox27">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
@@ -1334,10 +1409,52 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.39583in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox8">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Ave Days to Pay</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1357,10 +1474,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Sum(Fields!DaysToPay.Value) / Sum(Fields!LineCount.Value)</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>f0</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1373,7 +1491,8 @@
                           <rd:DefaultName>Textbox10</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1393,10 +1512,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>%&lt;=30 Days</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>f0</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1409,7 +1529,8 @@
                           <rd:DefaultName>Textbox12</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1429,10 +1550,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=(Sum(Fields!Less30.Value) / Sum(Fields!LineCount.Value))*100</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>f0</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1445,7 +1567,8 @@
                           <rd:DefaultName>Textbox14</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1465,10 +1588,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>%&gt;30 Days</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1481,7 +1604,8 @@
                           <rd:DefaultName>Textbox16</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1501,10 +1625,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=(Sum(Fields!Greater30.Value) / Sum(Fields!LineCount.Value))*100</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>f0</Format>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1517,7 +1642,8 @@
                           <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1537,10 +1663,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>%&gt;60 Days</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1551,7 +1677,8 @@
                           <rd:DefaultName>Textbox18</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1571,10 +1698,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!DaysToPay.Value) / Count(Fields!DocumentNo.Value)</Value>
+                                  <Value>=(Sum(Fields!Greater60.Value) / Sum(Fields!LineCount.Value))*100</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                     <Format>f0</Format>
                                     <Color>#333333</Color>
                                   </Style>
@@ -1586,7 +1713,8 @@
                           <rd:DefaultName>Textbox20</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1595,7 +1723,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1607,10 +1734,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Count(Fields!DocumentNo.Value)</Value>
+                                  <Value>%&gt;90 Days</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                     <Color>#333333</Color>
                                   </Style>
                                 </TextRun>
@@ -1623,7 +1750,8 @@
                           <rd:DefaultName>Textbox21</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1643,10 +1771,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!DaysToPay.Value)</Value>
+                                  <Value>=(Sum(Fields!Greater90.Value) / Sum(Fields!LineCount.Value))*100</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                     <Format>f0</Format>
                                     <Color>#333333</Color>
                                   </Style>
@@ -1660,7 +1788,8 @@
                           <rd:DefaultName>Textbox22</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1680,7 +1809,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!DaysLate.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
@@ -1697,7 +1826,45 @@
                           <rd:DefaultName>Textbox23</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox39">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox39</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>2pt</Width>
                             </Border>
                             <BackgroundColor>White</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -1725,6 +1892,11 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>true</Hidden>
+                  </Visibility>
+                </TablixMember>
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1838,14 +2010,14 @@
                   <TablixHeader>
                     <Size>1in</Size>
                     <CellContents>
-                      <Textbox Name="Textbox26">
+                      <Textbox Name="LineCount">
                         <CanGrow>true</CanGrow>
                         <KeepTogether>true</KeepTogether>
                         <Paragraphs>
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value />
+                                <Value>=Sum(Fields!LineCount.Value)</Value>
                                 <Style>
                                   <FontSize>9pt</FontSize>
                                   <FontWeight>Normal</FontWeight>
@@ -1858,10 +2030,14 @@
                             </Style>
                           </Paragraph>
                         </Paragraphs>
-                        <rd:DefaultName>Textbox26</rd:DefaultName>
+                        <rd:DefaultName>LineCount</rd:DefaultName>
+                        <Visibility>
+                          <Hidden>true</Hidden>
+                        </Visibility>
                         <Style>
                           <Border>
-                            <Style>None</Style>
+                            <Style>Solid</Style>
+                            <Width>2pt</Width>
                           </Border>
                           <BackgroundColor>White</BackgroundColor>
                           <PaddingLeft>2pt</PaddingLeft>
@@ -1880,10 +2056,10 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>0.26667in</Top>
+            <Top>0.05834in</Top>
             <Left>0in</Left>
-            <Height>1.30833in</Height>
-            <Width>11.96667in</Width>
+            <Height>1.45416in</Height>
+            <Width>12.15417in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1891,10 +2067,10 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.575in</Height>
+        <Height>1.56458in</Height>
         <Style />
       </Body>
-      <Width>11.96667in</Width>
+      <Width>12.15417in</Width>
       <Page>
         <PageHeader>
           <Height>1in</Height>
@@ -1920,7 +2096,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox19</rd:DefaultName>
               <Top>0.255in</Top>
-              <Left>0.17167in</Left>
+              <Left>0.1925in</Left>
               <Height>0.25in</Height>
               <Width>4.72in</Width>
               <Style>
@@ -2030,6 +2206,21 @@ End Function
         </Field>
         <Field Name="DaysLateFormat">
           <DataField>DaysLateFormat</DataField>
+        </Field>
+        <Field Name="LineCount">
+          <DataField>LineCount</DataField>
+        </Field>
+        <Field Name="Less30">
+          <DataField>Less30</DataField>
+        </Field>
+        <Field Name="Greater30">
+          <DataField>Greater30</DataField>
+        </Field>
+        <Field Name="Greater60">
+          <DataField>Greater60</DataField>
+        </Field>
+        <Field Name="Greater90">
+          <DataField>Greater90</DataField>
         </Field>
       </Fields>
       <Query>
