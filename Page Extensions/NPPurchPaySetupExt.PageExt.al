@@ -6,8 +6,8 @@ pageextension 50063 "NP PurchPaySetupExt" extends "Purchases & Payables Setup"
         {
             action("NP Export OS PO Lines")
             {
-                Caption = 'Export OS PO Lines';
-                ToolTip = 'Run this to export to Excel all open purchase order lines';
+                Caption = 'Export Entries';
+                ToolTip = 'Run this to export to Excel purchase order lines or GL Entries';
                 ApplicationArea = All;
                 Image = ExportElectronicDocument;
                 Promoted = true;
@@ -15,10 +15,8 @@ pageextension 50063 "NP PurchPaySetupExt" extends "Purchases & Payables Setup"
                 PromotedCategory = Report;
 
                 trigger OnAction()
-                var
-                    VendSearchCueCU: Codeunit "NP Vendor Search Cues Mgmt";
                 begin
-                    VendSearchCueCU.CreateTxtFile();
+                    Page.Run(Page::"NP Purchase Download Selection");
                 end;
             }
         }

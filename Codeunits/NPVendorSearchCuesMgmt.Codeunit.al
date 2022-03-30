@@ -63,7 +63,7 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
             VendorSearchCue.Rename(Rec."No.");
     end;
 
-    procedure CreateTxtFile()
+    procedure CreateTxtFile(DateFrom: Date; DateTo: Date)
     var
         CreatedUser: Record User;
         ModifiedUser: Record User;
@@ -117,6 +117,7 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
             PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
             PurchaseLine.SetFilter(Type, '<>%1', PurchaseLine.Type::" ");
             PurchaseLine.SetFilter("Outstanding Amount", '<>%1', 0);
+            PurchaseLine.SetFilter("Order Date", '%1..%2', DateFrom, DateTo);
             if PurchaseLine.FindSet() then
                 repeat
                     CR := 13;
@@ -386,4 +387,135 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
         end;
     end;
 
+    procedure GLEntryDownload(DateFrom: Date; DateTo: Date)
+    var
+        CreatedUser: Record User;
+        ModifiedUser: Record User;
+        Vendor: Record Vendor;
+        Customer: Record Customer;
+        PurchaseLine: Record "Purch. Inv. Line";
+        DimensionSetEntry: Record "Dimension Set Entry";
+        GLEntry: Record "G/L Entry";
+        BlobFile: Codeunit "Temp Blob";
+        TempBlob: Codeunit "Temp Blob";
+        InStr: InStream;
+        OutStr: OutStream;
+        CR: char;
+        LF: char;
+        Line: text;
+        GangCode: Text;
+        GangName: Text;
+        FileName: Text;
+        LineDescription: Text[100];
+        VendorNo: Text;
+        VendorName: Text[50];
+        Window: Dialog;
+        RunDownload: Label 'Do you want to download GL Entries to Excel?';
+    begin
+        if Confirm(RunDownload, false) then begin
+            Window.Open('##1###################');
+            FileName := 'GL_Entries.csv';
+            TempBlob.CreateOutStream(OutStr);
+            Clear(Line);
+            Clear(LineDescription);
+            CR := 13;
+            LF := 10;
+            Line := 'Document Number' + ',';
+            Line := Line + 'Source Code' + ',';
+            Line := Line + 'Document Type' + ',';
+            Line := Line + 'Posting Date' + ',';
+            Line := Line + 'Document Date' + ',';
+            Line := Line + 'G/L Account' + ',';
+            Line := Line + 'G/L Account Name' + ',';
+            Line := Line + 'Vendor / Customer' + ',';
+            Line := Line + 'Vendor / Customer Name' + ',';
+            Line := Line + 'External Document No.' + ',';
+            Line := Line + 'Description' + ',';
+            Line := Line + 'Amount' + ',';
+            Line := Line + 'VAT Amount' + ',';
+            Line := Line + 'Contract' + ',';
+            Line := Line + 'Workstream' + ',';
+            Line := Line + 'Gang Code' + ',';
+            Line := Line + 'Gang Name' + ',';
+            Line := Line + 'Bal. Account Type' + ',';
+            Line := Line + 'Entry No.' + ',';
+            Line := Line + 'Gen. Bus. Posting Grp' + ',';
+            Line := Line + 'Gen. Prod. Posting Grp';
+
+            OutStr.WriteText(Line + CR + LF);
+
+            GLEntry.SetFilter("Posting Date", '%1..%2', DateFrom, DateTo);
+            if GLEntry.FindSet() then
+                repeat
+                    CR := 13;
+                    LF := 10;
+                    GLEntry.CalcFields("G/L Account Name");
+                    Clear(GangCode);
+                    Clear(GangName);
+                    Window.Update(1, GLEntry."Document No.");
+                    DimensionSetEntry.Reset();
+                    DimensionSetEntry.SetRange("Dimension Set ID", GLEntry."Dimension Set ID");
+                    DimensionSetEntry.SetRange("Dimension Code", 'GANG');
+                    if DimensionSetEntry.FindFirst() then begin
+                        DimensionSetEntry.CalcFields("Dimension Value Name");
+                        GangCode := DimensionSetEntry."Dimension Value Code";
+                        GangName := DimensionSetEntry."Dimension Value Name";
+                    end;
+                    Line := GLEntry."Document No." + ',';
+                    Line := Line + GLEntry."Source Code" + ',';
+                    Line := Line + Format(GLEntry."Document Type") + ',';
+                    Line := Line + Format(GLEntry."Posting Date") + ',';
+                    Line := Line + Format(GLEntry."Document Date") + ',';
+                    Line := Line + GLEntry."G/L Account No." + ',';
+                    Line := Line + GLEntry."G/L Account Name" + ',';
+                    if GLEntry."Gen. Posting Type" = GLEntry."Gen. Posting Type"::Purchase then begin
+                        if Vendor.Get(GLEntry."Source No.") then begin
+                            Line := Line + Vendor."No." + ',';
+                            Line := Line + Vendor.Name + ',';
+                        end else begin
+                            Line := Line + '' + ',';
+                            Line := Line + '' + ',';
+                        end;
+                        if GLEntry."Document Type" = GLEntry."Document Type"::Invoice then begin
+                            PurchaseLine.SetRange("Document No.", GLEntry."Document No.");
+                        end;
+                    end else
+                        if GLEntry."Gen. Posting Type" = GLEntry."Gen. Posting Type"::Sale then begin
+                            if Customer.Get(GLEntry."Source No.") then begin
+                                Line := Line + Customer."No." + ',';
+                                Line := Line + Customer.Name + ',';
+                            end else begin
+                                Line := Line + '' + ',';
+                                Line := Line + '' + ',';
+                            end;
+                        end else begin
+                            Line := Line + '' + ',';
+                            Line := Line + '' + ',';
+                        end;
+                    Line := Line + GLEntry."External Document No." + ',';
+                    Line := Line + GLEntry.Description + ',';
+                    Line := Line + DelChr(Format(GLEntry.Amount), '=', ',') + ',';
+                    Line := Line + DelChr(Format(GLEntry."VAT Amount"), '=', ',') + ',';
+                    Line := Line + GLEntry."Global Dimension 1 Code" + ',';
+                    Line := Line + GLEntry."Global Dimension 2 Code" + ',';
+                    Line := Line + GangCode + ',';
+                    Line := Line + GangName + ',';
+                    Line := Line + Format(GLEntry."Bal. Account Type") + ',';
+                    Line := Line + Format(GLEntry."Entry No.") + ',';
+                    Line := Line + GLEntry."Gen. Bus. Posting Group" + ',';
+                    Line := Line + GLEntry."Gen. Prod. Posting Group";
+                    OutStr.WriteText(Line + CR + LF);
+                Until GLEntry.Next() = 0;
+            TempBlob.CreateInStream(InStr);
+            DownloadFromStream(InStr, '', '', '', FileName);
+            Window.Close();
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::"Purchase Header", 'OnBeforeValidateDocumentDateWithPostingDate', '', false, false)]
+    local procedure DisableDocumentDateUpdate(var IsHandled: Boolean; var PurchaseHeader: Record "Purchase Header")
+    begin
+        if PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Order then
+            IsHandled := true;
+    end;
 }
