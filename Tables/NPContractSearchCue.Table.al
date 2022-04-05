@@ -76,6 +76,18 @@ table 50008 "NP Contract Search Cue"
             FieldClass = FlowField;
             CalcFormula = sum("Sales Cr.Memo Line".Amount where("Shortcut Dimension 1 Code" = field("Contract No.")));
         }
+        field(50027; "Contract Inventory"; Decimal)
+        {
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum("Item Ledger Entry"."Remaining Quantity" where("Global Dimension 1 Code" = field("Contract No."), Open = const(true)));
+        }
+        field(50028; "Contract Inventory Value"; Decimal)
+        {
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum("Value Entry"."Cost Amount (Actual)" where("Global Dimension 1 Code" = field("Contract No.")));
+        }
     }
 
     keys

@@ -74,6 +74,21 @@ page 50016 "NP Contract Search Cues"
                     Caption = 'Posted Purchase Credits';
                     ToolTip = 'Posted Purchase Credits';
                 }
+                field("Contract Inventory"; Rec."Contract Inventory")
+                {
+                    ApplicationArea = All;
+                    DrillDownPageId = "Item Ledger Entries";
+                    Caption = 'Contract Inventory Qty.';
+                    ToolTip = 'Contract Inventory Qty.';
+                    DecimalPlaces = 0 : 2;
+                }
+                field("Contract Inventory Value"; Rec."Contract Inventory Value")
+                {
+                    ApplicationArea = All;
+                    DrillDownPageId = "Value Entries";
+                    Caption = 'Contract Inventory Value';
+                    ToolTip = 'Contract Inventory Value';
+                }
             }
         }
     }
