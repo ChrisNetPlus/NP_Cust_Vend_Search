@@ -518,4 +518,5 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
         if PurchaseHeader."Document Type" = PurchaseHeader."Document Type"::Order then
             IsHandled := true;
     end;
+
 }
