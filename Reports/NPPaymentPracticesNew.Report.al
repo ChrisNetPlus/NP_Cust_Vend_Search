@@ -20,7 +20,7 @@ report 50014 "NP Payment Practices New"
             column(VendorName; "Vendor Name")
             {
             }
-            column(InvoiceReceiptDate; "Invoice Receipt Date")
+            column(InvoiceReceiptDate; "Document Date")
             {
             }
             column(PostingDate; "Posting Date")
@@ -98,7 +98,7 @@ report 50014 "NP Payment Practices New"
         Clear(Greater60);
         Clear(Greater90);
         if VendLedEntry."Closed at Date" <> 0D then begin
-            DaysToPay := VendLedEntry."Closed at Date" - VendLedEntry."Posting Date";
+            DaysToPay := VendLedEntry."Closed at Date" - VendLedEntry."Document Date";
             DaysLate := VendLedEntry."Due Date" - VendLedEntry."Closed at Date";
             DocumentCount := DocumentCount + 1;
             LineCount := 1;
