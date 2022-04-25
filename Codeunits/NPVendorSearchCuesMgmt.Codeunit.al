@@ -522,4 +522,147 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
 
     end;
 
+    procedure LloydsVendorDownload(DateFrom: Date; DateTo: Date)
+    var
+        Vendor: Record Vendor;
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        PurchaseHeader: Record "Purchase Header";
+        PurchaseHeader1: Record "Purchase Header";
+        PurchaseHeaderArchive: Record "Purchase Header Archive";
+        BlobFile: Codeunit "Temp Blob";
+        TempBlob: Codeunit "Temp Blob";
+        InStr: InStream;
+        OutStr: OutStream;
+        CR: char;
+        LF: char;
+        Line: text;
+        FileName: Text;
+        VendorNo: Text;
+        VendorName: Text[50];
+        TotalNoInvoices: Integer;
+        TotalValueInvoices: Decimal;
+        TotalNoCredits: Integer;
+        TotalValueCredits: Decimal;
+        TotalNoPayments: Integer;
+        TotalValuePayments: Decimal;
+        TotalNoPurchaseOrders: Integer;
+        TotalValuePurchaseOrders: Decimal;
+        TotalNoPurchArch: Integer;
+        TotalValuePurchArch: Decimal;
+        Window: Dialog;
+        RunDownload: Label 'Do you want to download Vendor Info to Excel?';
+    begin
+        if Confirm(RunDownload, false) then begin
+            Window.Open('##1###################');
+            FileName := 'Lloyds_Vendor_Info.csv';
+            TempBlob.CreateOutStream(OutStr);
+            Clear(Line);
+            CR := 13;
+            LF := 10;
+            Line := 'Supplier Name' + ',';
+            Line := Line + 'Address' + ',';
+            Line := Line + 'Address 2' + ',';
+            Line := Line + 'City' + ',';
+            Line := Line + 'County' + ',';
+            Line := Line + 'Post Code' + ',';
+            Line := Line + 'Vendor ID' + ',';
+            Line := Line + 'VAT Registration No.' + ',';
+            Line := Line + 'Payment Terms' + ',';
+            Line := Line + 'Payment Method' + ',';
+            Line := Line + 'Total No. of Invoices' + ',';
+            Line := Line + 'Total Value of Invoices' + ',';
+            Line := Line + 'Total No. of Credit Memos' + ',';
+            Line := Line + 'Total Value of Credit Memos' + ',';
+            Line := Line + 'Total Number of Payments' + ',';
+            Line := Line + 'Total Value of Payments' + ',';
+            Line := Line + 'Total Number of Purchase Orders' + ',';
+            Line := Line + 'Total Value of Purchase Orders';
+
+            OutStr.WriteText(Line + CR + LF);
+            Vendor.SetFilter("No.", '%1', 'V*');
+            if Vendor.FindSet() then
+                repeat
+                    Clear(TotalNoInvoices);
+                    Clear(TotalValueInvoices);
+                    Clear(TotalNoCredits);
+                    Clear(TotalValueCredits);
+                    Clear(TotalNoPayments);
+                    Clear(TotalValuePayments);
+                    Clear(TotalNoPurchaseOrders);
+                    Clear(TotalValuePurchaseOrders);
+                    Clear(TotalNoPurchArch);
+                    Clear(TotalValuePurchArch);
+                    Window.Update(1, Vendor."No.");
+                    CR := 13;
+                    LF := 10;
+                    VendorLedgerEntry.SetRange("Vendor No.", Vendor."No.");
+                    VendorLedgerEntry.SetFilter("Posting Date", '%1..%2', DateFrom, DateTo);
+                    if VendorLedgerEntry.FindSet() then
+                        repeat
+                            VendorLedgerEntry.CalcFields(Amount);
+                            if VendorLedgerEntry."Document Type" = VendorLedgerEntry."Document Type"::Invoice then begin
+                                TotalNoInvoices += 1;
+                                TotalValueInvoices := TotalValueInvoices + Abs(VendorLedgerEntry.Amount);
+                            end;
+                            if VendorLedgerEntry."Document Type" = VendorLedgerEntry."Document Type"::"Credit Memo" then begin
+                                TotalNoCredits += 1;
+                                TotalValueCredits := TotalValueCredits + Abs(VendorLedgerEntry.Amount);
+                            end;
+                            if VendorLedgerEntry."Document Type" = VendorLedgerEntry."Document Type"::Payment then begin
+                                TotalNoPayments += 1;
+                                TotalValuePayments := TotalValuePayments + VendorLedgerEntry.Amount;
+                            end;
+                        Until VendorLedgerEntry.Next() = 0;
+                    PurchaseHeader.Reset();
+                    PurchaseHeader.SetRange("Document Type", PurchaseHeader."Document Type"::Order);
+                    PurchaseHeader.SetRange("Buy-from Vendor No.", Vendor."No.");
+                    PurchaseHeader.SetFilter("Document Date", '%1..%2', DateFrom, DateTo);
+                    if PurchaseHeader.FindSet() then
+                        repeat
+                            PurchaseHeader.CalcFields(Amount);
+                            TotalNoPurchaseOrders += 1;
+                            TotalValuePurchaseOrders := TotalValuePurchaseOrders + PurchaseHeader.Amount;
+                        Until PurchaseHeader.Next() = 0;
+                    PurchaseHeaderArchive.SetRange("Document Type", PurchaseHeaderArchive."Document Type"::Order);
+                    PurchaseHeaderArchive.SetRange("Buy-from Vendor No.", Vendor."No.");
+                    PurchaseHeaderArchive.SetFilter("Document Date", '%1..%2', DateFrom, DateTo);
+                    if PurchaseHeaderArchive.FindSet() then
+                        repeat
+                            PurchaseHeader1.Reset();
+                            PurchaseHeader1.SetRange("Document Type", PurchaseHeader."Document Type"::Order);
+                            PurchaseHeader1.SetRange("No.", PurchaseHeaderArchive."No.");
+                            if not PurchaseHeader1.FindLast() then begin
+                                PurchaseHeaderArchive.CalcFields(Amount);
+                                TotalNoPurchArch += 1;
+                                TotalValuePurchArch := TotalValuePurchArch + PurchaseHeaderArchive.Amount;
+                            end;
+                        Until PurchaseHeaderArchive.Next = 0;
+                    TotalNoPurchaseOrders := TotalNoPurchaseOrders + TotalNoPurchArch;
+                    TotalValuePurchaseOrders := TotalValuePurchaseOrders + TotalValuePurchArch;
+                    Line := Vendor.Name + ',';
+                    Line := Line + DelChr(Vendor.Address, '=', ',') + ',';
+                    Line := Line + DelChr(Vendor."Address 2", '=', ',') + ',';
+                    Line := Line + DelChr(Vendor.City, '=', ',') + ',';
+                    Line := Line + DelChr(Vendor.County, '=', ',') + ',';
+                    Line := Line + Vendor."Post Code" + ',';
+                    Line := Line + Vendor."No." + ',';
+                    Line := Line + Vendor."VAT Registration No." + ',';
+                    Line := Line + Vendor."Payment Terms Code" + ',';
+                    Line := Line + Vendor."Payment Method Code" + ',';
+                    Line := Line + DelChr(Format(TotalNoInvoices), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalValueInvoices), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalNoCredits), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalValueCredits), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalNoPayments), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalValuePayments), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalNoPurchaseOrders), '=', ',') + ',';
+                    Line := Line + DelChr(Format(TotalValuePurchaseOrders), '=', ',');
+                    OutStr.WriteText(Line + CR + LF);
+                Until Vendor.Next() = 0;
+            TempBlob.CreateInStream(InStr);
+            DownloadFromStream(InStr, '', '', '', FileName);
+            Window.Close();
+        end;
+    end;
+
 }

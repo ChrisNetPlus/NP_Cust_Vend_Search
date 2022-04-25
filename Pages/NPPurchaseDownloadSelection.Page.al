@@ -31,6 +31,7 @@ page 50019 "NP Purchase Download Selection"
                     trigger OnValidate()
                     begin
                         GLEntries := false;
+                        VendorInfo := false;
                     end;
 
                 }
@@ -42,8 +43,21 @@ page 50019 "NP Purchase Download Selection"
                     trigger OnValidate()
                     begin
                         PurchaseLines := false;
+                        VendorInfo := false;
                     end;
                 }
+                field(VendorInfo; VendorInfo)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Download Lloyds Vendor Info';
+                    ToolTip = 'Tick this box to download Lloyds Vendor Info';
+                    trigger OnValidate()
+                    begin
+                        PurchaseLines := false;
+                        GLEntries := false;
+                    end;
+                }
+
             }
         }
     }
@@ -54,6 +68,7 @@ page 50019 "NP Purchase Download Selection"
         LabChoiceError: Label 'You have not chosen a report to run';
         GLEntries: Boolean;
         PurchaseLines: Boolean;
+        VendorInfo: Boolean;
 
     trigger OnClosePage()
     var
@@ -65,7 +80,9 @@ page 50019 "NP Purchase Download Selection"
             VendSearchCueCU.CreateTxtFile(DateFrom, DateTo);
         if GLEntries = true then
             VendSearchCueCU.GLEntryDownload(DateFrom, DateTo);
-        if (GLEntries = false) and (PurchaseLines = false) then
+        if VendorInfo = true then
+            VendSearchCueCU.LloydsVendorDownload(DateFrom, DateTo);
+        if (GLEntries = false) and (PurchaseLines = false) and (VendorInfo = false) then
             Error(LabChoiceError);
     end;
 }
