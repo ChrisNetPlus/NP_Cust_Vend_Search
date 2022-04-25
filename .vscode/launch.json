@@ -10,7 +10,7 @@
             "port": 7149,
             "serverInstance": "BC180",
             "authentication": "Windows",
-            "startupObjectId": 460,
+            "startupObjectId": 393,
             "startupObjectType": "Page",
             "breakOnError": true,
             "launchBrowser": true,
