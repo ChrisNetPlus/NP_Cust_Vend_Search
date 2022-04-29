@@ -103,6 +103,8 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
             Line := Line + 'Order Qty.' + ',';
             Line := Line + 'Outstanding Qty.' + ',';
             Line := Line + 'Outstanding Amount' + ',';
+            Line := Line + 'Qty. Received' + ',';
+            Line := Line + 'Qty. Invoiced' + ',';
             Line := Line + 'Unit Cost' + ',';
             Line := Line + 'Created By' + ',';
             Line := Line + 'Created On' + ',';
@@ -155,6 +157,8 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
                     Line := Line + DelChr(Format(PurchaseLine.Quantity), '=', ',') + ',';
                     Line := Line + DelChr(Format(PurchaseLine."Outstanding Quantity"), '=', ',') + ',';
                     Line := Line + DelChr(Format(PurchaseLine."Outstanding Amount"), '=', ',') + ',';
+                    Line := Line + DelChr(Format(PurchaseLine."Quantity Received"), '=', ',') + ',';
+                    Line := Line + DelChr(Format(PurchaseLine."Quantity Invoiced"), '=', ',') + ',';
                     Line := Line + DelChr(Format(PurchaseLine."Direct Unit Cost"), '=', ',') + ',';
                     Line := Line + CreatedUser."User Name" + ',';
                     Line := Line + Format(PurchaseLine.SystemCreatedAt) + ',';
