@@ -2,7 +2,7 @@
   "id": "3c9fe188-a199-4ad1-9e1d-a081e8e2cf0f",
   "name": "Customer Vendor Search",
   "publisher": "Network Plus",
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -15,6 +15,12 @@
       "id": "1c7a8786-a409-48a5-af6d-07078329e721",
       "name": "NetworkPlusGeneral",
       "version": "1.0.0.2",
+      "publisher": "Network Plus"
+    },
+    {
+      "id": "2c9fe188-a199-4ad1-9e1d-a081e8e2cf0f",
+      "name": "NP Sprint 2",
+      "version": "1.0.0.3",
       "publisher": "Network Plus"
     }
   ],

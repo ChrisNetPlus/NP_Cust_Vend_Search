@@ -248,7 +248,7 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
                     LF := 10;
                     PurchaseInvHdr.Reset();
                     PurchaseInvHdr.SetRange("No.", PurchaseInvLine."Document No.");
-                    PurchaseInvHdr.SetFilter("Order No.", '<>%1', '');
+                    // PurchaseInvHdr.SetFilter("Order No.", '<>%1', '');
                     if PurchaseInvHdr.FindFirst() then begin
                         VendorLedgerEntry.SetRange("Document Type", VendorLedgerEntry."Document Type"::Invoice);
                         VendorLedgerEntry.SetRange("Document No.", PurchaseInvLine."Document No.");
@@ -293,7 +293,10 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
                             Line := Line + Vendor.Name + ',';
                             Line := Line + VLDescription + ',';
                             Line := Line + DelChr(Format(Abs(PurchaseInvLine."Line Amount")), '=', ',') + ',';
-                            Line := Line + PurchaseInvHdr."Order No." + ',';
+                            if PurchaseInvHdr."Order No." = '' then
+                                Line := Line + PurchaseInvLine."Order No." + ','
+                            else
+                                Line := Line + PurchaseInvHdr."Order No." + ',';
                             Line := Line + Format(PurchaseInvLine."Line No.") + ',';
                             Line := Line + Format(PurchaseInvHdr."Order Date") + ',';
                             Line := Line + PurchaseInvLine."No." + ',';

@@ -1,4 +1,4 @@
-pageextension 50065 "NP Purchase Line List Ext" extends "NP Purchase Line List"
+pageextension 50065 "NP Purch. Line List Ext" extends "NP Purchase Line List"
 {
     layout
     {
