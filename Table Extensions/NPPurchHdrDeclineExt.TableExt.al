@@ -7,7 +7,7 @@ tableextension 50038 "NP PurchHdrDeclineExt" extends "Purchase Header"
             Caption = 'Decline Reason';
             DataClassification = CustomerContent;
         }
-        field(50039; "NP Declined By"; Code[20])
+        field(50039; "NP Declined By"; Code[50])
         {
             Caption = 'Declined By';
             DataClassification = CustomerContent;
