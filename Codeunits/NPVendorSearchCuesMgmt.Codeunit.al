@@ -529,6 +529,15 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
 
     end;
 
+    [EventSubscriber(ObjectType::Table, Database::"Sales Header", 'OnValidatePostingDateOnBeforeAssignDocumentDate', '', false, false)]
+    local procedure DisableSalesDocumentDateUpdate(var IsHandled: Boolean; var SalesHeader: Record "Sales Header")
+    begin
+        if SalesHeader."Document Type" = SalesHeader."Document Type"::Order then
+            IsHandled := true;
+        if SalesHeader."Document Type" = SalesHeader."Document Type"::Invoice then
+            IsHandled := true;
+    end;
+
     procedure LloydsVendorDownload(DateFrom: Date; DateTo: Date)
     var
         Vendor: Record Vendor;
