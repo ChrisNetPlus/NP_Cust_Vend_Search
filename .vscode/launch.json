@@ -17,7 +17,8 @@
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
             "forceUpgrade": true,
-            "dependencyPublishingOption": "Ignore"
+            "dependencyPublishingOption": "Ignore",
+            "schemaUpdateMode": "ForceSync"
         },
         {
             "name": "BC_PROD",
