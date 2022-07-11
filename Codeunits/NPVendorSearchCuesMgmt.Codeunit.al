@@ -499,8 +499,8 @@ codeunit 50205 "NP Vendor Search Cues Mgmt"
                             Line := Line + '' + ',';
                             Line := Line + '' + ',';
                         end;
-                    Line := Line + GLEntry."External Document No." + ',';
-                    Line := Line + GLEntry.Description + ',';
+                    Line := Line + DelChr(GLEntry."External Document No.", '=', ',') + ',';
+                    Line := Line + DelChr(GLEntry.Description, '=', ',') + ',';
                     Line := Line + DelChr(Format(GLEntry.Amount), '=', ',') + ',';
                     Line := Line + DelChr(Format(GLEntry."VAT Amount"), '=', ',') + ',';
                     Line := Line + GLEntry."Global Dimension 1 Code" + ',';
